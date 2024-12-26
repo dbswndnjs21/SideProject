@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudyBoardDto {
-    private int id;
+    private Long id;
     private String title;
     private LocalDate endDate;
     private int state; // 1: 모집중 0: 모집완료
