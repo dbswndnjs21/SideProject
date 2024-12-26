@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudyBoardEntity {
+public class StudyBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
 //    private String username; join 해서 유저정보 가져오기
     private String title;

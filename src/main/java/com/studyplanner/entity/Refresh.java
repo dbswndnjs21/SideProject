@@ -11,17 +11,16 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
+@Builder
+public class Refresh {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String username;
-    private String password;
-
-    private String role;
+    private String refresh;
+    private String expiration;
 }
