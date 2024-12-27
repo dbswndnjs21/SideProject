@@ -22,6 +22,8 @@ public class StudyBoardComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long studyBoardId;
+    private Long userId;
     //    private String pic_url; join 해서 유저 프로필 가져오기
     private String comment;
     private LocalDateTime createdAt;

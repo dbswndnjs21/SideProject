@@ -1,29 +1,19 @@
-package com.studyplanner.entity;
+package com.studyplanner.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.studyplanner.entity.StudyBoardComment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class StudyBoard {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Setter
+public class StudyBoardContentDto {
     private Long id;
-
-//    private String username; join 해서 유저정보 가져오기
     private String title;
     private LocalDate endDate;
     private int state; // 1: 모집중 0: 모집완료
@@ -31,7 +21,15 @@ public class StudyBoard {
     private String description; // 프로젝트에 관한 간략한 설명
     private int participants; // 모집인원
     private LocalDate strDate; // 시작예정일
-    private int estimatedTime; // 예상기간
+    private String estimatedTime; // 예상기간
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // 작성자 정보 -- userTable
+    private Long username;
+
+    // comment 가져오기
+    private List<StudyBoardCommentDto> comments;
+
+
 }

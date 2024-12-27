@@ -1,16 +1,14 @@
 package com.studyplanner.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 public class StudyBoardCommentDto {
     private Long id;
+    private Long studyBoardId;
+    private Long userId;
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
