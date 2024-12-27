@@ -26,7 +26,7 @@ public class StudyBoardContentDto {
     private LocalDateTime updatedAt;
 
     // 작성자 정보 -- userTable
-    private Long username;
+    private String username;
 
     // comment 가져오기
     private List<StudyBoardCommentDto> comments;

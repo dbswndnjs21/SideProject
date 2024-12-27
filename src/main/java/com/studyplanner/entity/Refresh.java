@@ -1,26 +1,27 @@
 package com.studyplanner.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Table(name = "refresh")
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Refresh {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "refresh")
     private String refresh;
+
+    @Column(name = "expiration")
     private String expiration;
 }

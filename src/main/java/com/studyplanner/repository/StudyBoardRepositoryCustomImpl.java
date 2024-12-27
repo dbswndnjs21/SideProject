@@ -10,10 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 @RequiredArgsConstructor
-public class StudyBoardRepositoryCustomImpl implements StudyBoardRepositoryCustom {
+public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     private final QStudyBoardComment comment = QStudyBoardComment.studyBoardComment;
@@ -34,16 +33,18 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardRepositoryCusto
                         studyBoard.strDate,
                         studyBoard.estimatedTime,
                         studyBoard.createdAt,
-                        studyBoard.updatedAt))
+                        studyBoard.updatedAt,
+                        user.username))
                 .from(studyBoard)
-                .where(studyBoard.id.eq(id))
-                .orderBy(studyBoard.count().desc())
+                .join(user).on(studyBoard.userId.eq(user.id))
+                .where(studyBoard.id.eq(id)) // and studyBoard.isWithdraw 칼럼이 0 인것도 추가
+                .orderBy(studyBoard.id.desc())
                 .fetchOne();
 
         List<StudyBoardCommentDto> comments = jpaQueryFactory
                 .select(Projections.fields(StudyBoardCommentDto.class,
                         comment.userId,
-                        user.pic_url,
+                        user.picUrl,
                         comment.comment,
                         comment.createdAt))
                 .from(comment)

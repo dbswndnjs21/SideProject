@@ -1,22 +1,18 @@
 package com.studyplanner.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "study_board")
 @Getter
+@ToString
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class StudyBoard {
 
     @Id
@@ -24,14 +20,39 @@ public class StudyBoard {
     private Long id;
 
 //    private String username; join 해서 유저정보 가져오기
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "end_date")
     private LocalDate endDate;
+
+    @Column(name = "state")
     private int state; // 1: 모집중 0: 모집완료
+
+    @Column(name = "icon")
     private int icon; // 기술스택 아이콘
+
+    @Column(name = "description")
     private String description; // 프로젝트에 관한 간략한 설명
+
+    @Column(name = "participants")
     private int participants; // 모집인원
+
+    @Column(name = "str_date")
     private LocalDate strDate; // 시작예정일
+
+    @Column(name = "estimated_time")
     private int estimatedTime; // 예상기간
+
+    @Column(name = "is_withdrawal")
+    private Boolean isWithdrawal;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

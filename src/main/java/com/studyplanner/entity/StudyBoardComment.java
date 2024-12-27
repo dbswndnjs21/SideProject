@@ -1,31 +1,34 @@
 package com.studyplanner.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "comment")
 @Getter
+@ToString
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class StudyBoardComment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "study_board_id")
     private Long studyBoardId;
+
+    @Column(name = "user_id")
     private Long userId;
-    //    private String pic_url; join 해서 유저 프로필 가져오기
+
+    @Column(name = "comment")
     private String comment;
+
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
+
+    @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 }
