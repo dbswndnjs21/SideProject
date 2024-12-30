@@ -1,23 +1,25 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 @Getter
 @ToString
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudyBoardComment {
+public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "study_board_id")
+    @Column(name = "studyboard_id")
     private Long studyBoardId;
 
     @Column(name = "user_id")

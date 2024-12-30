@@ -2,20 +2,18 @@ package com.studyplanner.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.studyplanner.dto.StudyBoardCommentDto;
+import com.studyplanner.dto.CommentsDto;
 import com.studyplanner.dto.StudyBoardContentDto;
 import com.studyplanner.entity.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 @RequiredArgsConstructor
 public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    private final QStudyBoardComment comment = QStudyBoardComment.studyBoardComment;
+    private final QComments comments = QComments.comments;
     private final QStudyBoard studyBoard = QStudyBoard.studyBoard;
     private final QUser user = QUser.user;
 
@@ -37,25 +35,25 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepositor
                         user.username))
                 .from(studyBoard)
                 .join(user).on(studyBoard.userId.eq(user.id))
-                .where(studyBoard.id.eq(id)) // and studyBoard.isWithdraw 칼럼이 0 인것도 추가
+                .where(studyBoard.id.eq(id).and(studyBoard.isWithdrawal.eq(false))) // and studyBoard.isWithdraw 칼럼이 0 인것도 추가
                 .orderBy(studyBoard.id.desc())
                 .fetchOne();
 
-        List<StudyBoardCommentDto> comments = jpaQueryFactory
-                .select(Projections.fields(StudyBoardCommentDto.class,
-                        comment.userId,
+        List<CommentsDto> comment = jpaQueryFactory
+                .select(Projections.fields(CommentsDto.class,
+                        comments.userId,
                         user.picUrl,
-                        comment.comment,
-                        comment.createdAt))
-                .from(comment)
-                .join(studyBoard).on(comment.studyBoardId.eq(studyBoard.id))
-                .join(user).on(comment.userId.eq(user.id))
-                .where(comment.studyBoardId.eq(id))
-                .orderBy(comment.count().desc())
+                        comments.comment,
+                        comments.createdAt))
+                .from(comments)
+                .join(studyBoard).on(comments.studyBoardId.eq(studyBoard.id))
+                .join(user).on(comments.userId.eq(user.id))
+                .where(comments.studyBoardId.eq(id))
+                .orderBy(comments.createdAt.desc())
                 .fetch();
 
         if(studyBoardContentDto != null) {
-            studyBoardContentDto.setComments(comments);
+            studyBoardContentDto.setComment(comment);
         }
 
         return studyBoardContentDto;

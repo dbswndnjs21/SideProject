@@ -1,10 +1,7 @@
 package com.studyplanner.dto;
 
-import com.studyplanner.entity.StudyBoardComment;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,7 +26,5 @@ public class StudyBoardContentDto {
     private String username;
 
     // comment 가져오기
-    private List<StudyBoardCommentDto> comments;
-
-
+    private List<CommentsDto> comment;
 }
