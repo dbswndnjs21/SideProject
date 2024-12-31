@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Room</title>
+</head>
+<body>
+<h1 id="roomName">Chat Room</h1>
+<div id="chatMessages"></div>
+<form id="messageForm">
+    <input type="text" id="messageInput" placeholder="Enter message" required>
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    let socket;
+
+    function connectToWebSocket(roomId) {
+        socket = new WebSocket(`ws://${window.location.host}/ws/chat`);
+
+        socket.onopen = function() {
+            const enterMessage = {
+                type: 'ENTER',
+                roomId: roomId,
+                sender: 'User' // 사용자 이름 설정
+            };
+            socket.send(JSON.stringify(enterMessage));
+        };
+
+        socket.onmessage = function(event) {
+            const message = JSON.parse(event.data);
+            displayMessage(message);
+        };
+
+        socket.onclose = function() {
+            console.log('WebSocket connection closed');
+        };
+    }
+
+    function sendMessage(roomId, messageContent) {
+        const chatMessage = {
+            type: 'TALK',
+            roomId: roomId,
+            sender: 'User', // 사용자 이름 설정
+            message: messageContent
+        };
+        socket.send(JSON.stringify(chatMessage));
+    }
+
+    function displayMessage(message) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageElement = document.createElement('div');
+        messageElement.textContent = `${message.sender}: ${message.message}`;
+        chatMessages.appendChild(messageElement);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomId = urlParams.get('roomId');
+
+        // 채팅방 정보 가져오기
+        fetch(`/chat/chatRoom?roomId=${roomId}`)
+            .then(response => response.json())
+            .then(room => {
+                document.getElementById('roomName').textContent = room.name;
+
+                // WebSocket 연결 시작
+                connectToWebSocket(roomId);
+            });
+
+        // 메시지 전송 처리
+        document.getElementById('messageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const messageContent = document.getElementById('messageInput').value;
+            sendMessage(roomId, messageContent);
+            document.getElementById('messageInput').value = ''; // 입력 필드 초기화
+        });
+    });
+</script>
+</body>
+</html>
