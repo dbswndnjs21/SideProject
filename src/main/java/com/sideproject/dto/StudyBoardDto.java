@@ -1,4 +1,4 @@
-package com.studyplanner.dto;
+package com.sideproject.dto;
 
 import lombok.*;
 

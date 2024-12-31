@@ -1,7 +1,7 @@
-package com.studyplanner.service;
+package com.sideproject.service;
 
-import com.studyplanner.dto.StudyBoardContentDto;
-import com.studyplanner.repository.StudyBoardCustomRepository;
+import com.sideproject.dto.StudyBoardContentDto;
+import com.sideproject.repository.StudyBoardCustomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

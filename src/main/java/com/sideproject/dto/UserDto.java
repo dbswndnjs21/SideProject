@@ -1,9 +1,8 @@
-package com.studyplanner.dto;
+package com.sideproject.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter

@@ -1,6 +1,6 @@
-package com.studyplanner.repository;
+package com.sideproject.repository;
 
-import com.studyplanner.entity.StudyBoard;
+import com.sideproject.entity.StudyBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudyBoardRepository extends JpaRepository<StudyBoard, Long>, StudyBoardCustomRepository {

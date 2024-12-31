@@ -1,6 +1,6 @@
-package com.studyplanner.repository;
+package com.sideproject.repository;
 
-import com.studyplanner.dto.StudyBoardContentDto;
+import com.sideproject.dto.StudyBoardContentDto;
 import org.springframework.stereotype.Repository;
 
 @Repository

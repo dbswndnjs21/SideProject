@@ -1,4 +1,4 @@
-package com.studyplanner.entity;
+package com.sideproject.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

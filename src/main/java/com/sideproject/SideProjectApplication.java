@@ -1,4 +1,4 @@
-package com.studyplanner;
+package com.sideproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,5 @@
-package com.studyplanner.config;
+package com.sideproject.config;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class QuerydslConfig {
-    private final EntityManager entityManager;
+    private final EntityManager
 
     @Bean
     public JPAQueryFactory jpaQueryFactory() {

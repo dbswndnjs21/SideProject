@@ -1,7 +1,7 @@
-package com.studyplanner.controller;
+package com.sideproject.controller;
 
-import com.studyplanner.dto.StudyBoardContentDto;
-import com.studyplanner.service.StudyBoardDetailService;
+import com.sideproject.dto.StudyBoardContentDto;
+import com.sideproject.service.StudyBoardDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
