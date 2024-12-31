@@ -24,4 +24,19 @@ public class StudyBoardContentDto {
     private LocalDateTime updatedAt;
     private String username;
     private List<CommentsDto> comment;
+
+    @QueryProjection
+    public StudyBoardContentDto(Long id, String title, LocalDate endDate, Integer state, Integer icon, String description, Integer participants, LocalDate strDate, Integer estimatedTime, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.title = title;
+        this.endDate = endDate;
+        this.state = state;
+        this.icon = icon;
+        this.description = description;
+        this.participants = participants;
+        this.strDate = strDate;
+        this.estimatedTime = estimatedTime;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }
