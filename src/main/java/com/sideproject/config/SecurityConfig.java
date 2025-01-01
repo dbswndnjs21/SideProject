@@ -52,8 +52,10 @@ public class SecurityConfig {
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .requestMatchers("/reissue").permitAll()
                                 .requestMatchers("/chatView").permitAll()
+                                .requestMatchers("/api/get/detail/**").permitAll()
                                 .requestMatchers("/chat/**").permitAll() // /chat/** 경로 허용
-                                .anyRequest().authenticated())
+//                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 // JWT 필터 추가
 //                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 //                        UsernamePasswordAuthenticationFilter.class)
