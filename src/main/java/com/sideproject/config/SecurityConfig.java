@@ -53,9 +53,10 @@ public class SecurityConfig {
                                 .requestMatchers("/reissue").permitAll()
                                 .requestMatchers("/chatView").permitAll()
                                 .requestMatchers("/api/get/detail/**").permitAll()
+                                .requestMatchers("/api/get/list").permitAll()
                                 .requestMatchers("/chat/**").permitAll() // /chat/** 경로 허용
-//                                .anyRequest().authenticated())
-                                .anyRequest().permitAll())
+                                .anyRequest().authenticated())
+//                                .anyRequest().permitAll())
                 // JWT 필터 추가
 //                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 //                        UsernamePasswordAuthenticationFilter.class)

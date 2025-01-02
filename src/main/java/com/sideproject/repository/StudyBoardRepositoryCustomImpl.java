@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideproject.dto.CommentsDto;
 import com.sideproject.dto.StudyBoardContentDto;
+import com.sideproject.dto.StudyBoardListDto;
 import com.sideproject.entity.QComments;
 import com.sideproject.entity.QStudyBoard;
 import com.sideproject.entity.QUserEntity;
@@ -62,4 +63,23 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepositor
 
         return studyBoardContentDto;
     }
+
+//    @Override
+//    public List<StudyBoardListDto> findStudyList(){
+//        List<StudyBoardListDto> studyBoardListDto = jpaQueryFactory
+//                .select(Projections.fields(StudyBoardListDto.class,
+//                        studyBoard.id,
+//                        user.username,
+//                        user.picUrl,
+//                        studyBoard.title,
+//                        studyBoard.participants,
+//                        studyBoard.endDate,
+//                        studyBoard.icon))
+//                .from(studyBoard)
+//                .join(user).on(studyBoard.userId.eq(user.id))
+//                .where(studyBoard.isWithdrawal.eq(false))
+//                .orderBy(studyBoard.createdAt.desc())
+//                .fetch();
+//        return studyBoardListDto;
+//    }
 }
