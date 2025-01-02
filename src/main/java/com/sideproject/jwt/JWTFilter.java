@@ -23,6 +23,15 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String uri = request.getRequestURI();
+        // /join 요청은 필터를 통과시킴
+        if ("/join".equals(uri)) {
+            filterChain.doFilter(request, response);
+            return;
+        } else if ("/test".equals(uri)){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // 헤더에서 access키에 담긴 토큰을 꺼냄
         String accessToken = request.getHeader("access");

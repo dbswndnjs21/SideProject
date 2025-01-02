@@ -45,13 +45,15 @@ public class SecurityConfig {
                 // 인증 및 권한 설정
                 .authorizeHttpRequests(authorizeRequestsConfigurer ->
                         authorizeRequestsConfigurer
+                                .requestMatchers("/login", "/", "/join").permitAll()
                                 .requestMatchers("/members/sign-in").permitAll()
                                 .requestMatchers("/members/sign-up").permitAll()
                                 .requestMatchers("/members/test").hasRole("USER")
-                                .requestMatchers("/login", "/", "/join").permitAll()
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .requestMatchers("/reissue").permitAll()
                                 .requestMatchers("/index.html").permitAll()
+                                // test용 html
+                                .requestMatchers("/test.html").permitAll()
                                 .requestMatchers("/ws/**", "/app/**", "/topic/**").permitAll()
                                 .anyRequest().authenticated())
 //                                .anyRequest().permitAll())

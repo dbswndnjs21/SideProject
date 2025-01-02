@@ -23,7 +23,6 @@ public class JoinService {
         if (isExists) {
             return;
         }
-
         UserEntity userEntity = UserEntity.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
