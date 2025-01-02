@@ -18,12 +18,12 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String username;
     private String password;
 
     private String role;
     private String picUrl;
-    private int isWithdrawal;
+    private Integer isWithdrawal;
 }
