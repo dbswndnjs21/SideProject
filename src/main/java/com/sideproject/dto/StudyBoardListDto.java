@@ -6,5 +6,7 @@
 //    private Long id;
 //    private String title;
 //    private LocalDate strDate;
-//
+//    private LocalDate endDate;
+//    private String icon;
+//    private
 //}

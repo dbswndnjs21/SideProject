@@ -6,7 +6,7 @@ import com.sideproject.dto.CommentsDto;
 import com.sideproject.dto.StudyBoardContentDto;
 import com.sideproject.entity.QComments;
 import com.sideproject.entity.QStudyBoard;
-import com.sideproject.entity.QUser;
+import com.sideproject.entity.QUserEntity;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepositor
 
     private final QComments comments = QComments.comments;
     private final QStudyBoard studyBoard = QStudyBoard.studyBoard;
-    private final QUser user = QUser.user;
+    private final QUserEntity user = QUserEntity.userEntity;
 
     @Override
     public StudyBoardContentDto findStudyInfoById(Long id) {
@@ -37,7 +37,9 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepositor
                         user.username))
                 .from(studyBoard)
                 .join(user).on(studyBoard.userId.eq(user.id))
-                .where(studyBoard.id.eq(id).and(studyBoard.isWithdrawal.eq(false))) // and studyBoard.isWithdraw 칼럼이 0 인것도 추가
+                .where(studyBoard.id.eq(id)
+                        .and(studyBoard.isWithdrawal.eq(false))
+                        .and(user.isWithdrawal.eq(0))) // and studyBoard.isWithdraw 칼럼이 0 인것도 추가
                 .orderBy(studyBoard.id.desc())
                 .fetchOne();
 
