@@ -22,10 +22,10 @@ public class GetStudyBoardApiController {
         return ResponseEntity.ok(detail);
     }
 
-//    @GetMapping("/list")
-//    public ResponseEntity<List<StudyBoardListDto>> getStudyBoardList(){
-//        List<StudyBoardListDto> list = studyBoardService.findStudyListOrderByDESC();
-//
-//        return ResponseEntity.ok(list);
-//    }
+    @GetMapping("/list")
+    public ResponseEntity<List<StudyBoardListDto>> getStudyBoardList(){
+        List<StudyBoardListDto> list = studyBoardService.findStudyListOrderByDESC();
+
+        return ResponseEntity.ok(list);
+    }
 }

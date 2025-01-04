@@ -1,8 +1,10 @@
 package com.sideproject.repository;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideproject.dto.CommentsDto;
+import com.sideproject.dto.QStudyBoardListDto;
 import com.sideproject.dto.StudyBoardContentDto;
 import com.sideproject.dto.StudyBoardListDto;
 import com.sideproject.entity.QComments;
@@ -13,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepository {
+public class StudyBoardCustomRepositoryImpl implements StudyBoardCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     private final QComments comments = QComments.comments;
@@ -57,29 +59,28 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepositor
                 .orderBy(comments.createdAt.desc())
                 .fetch();
 
-        if(studyBoardContentDto != null) {
-            studyBoardContentDto.setComment(comment);
-        }
+//        if(studyBoardContentDto != null) {
+//            studyBoardContentDto.setComment(comment);
+//        }
 
         return studyBoardContentDto;
     }
 
-//    @Override
-//    public List<StudyBoardListDto> findStudyList(){
-//        List<StudyBoardListDto> studyBoardListDto = jpaQueryFactory
-//                .select(Projections.fields(StudyBoardListDto.class,
-//                        studyBoard.id,
-//                        user.username,
-//                        user.picUrl,
-//                        studyBoard.title,
-//                        studyBoard.participants,
-//                        studyBoard.endDate,
-//                        studyBoard.icon))
-//                .from(studyBoard)
-//                .join(user).on(studyBoard.userId.eq(user.id))
-//                .where(studyBoard.isWithdrawal.eq(false))
-//                .orderBy(studyBoard.createdAt.desc())
-//                .fetch();
-//        return studyBoardListDto;
-//    }
+    @Override
+    public List<StudyBoardListDto> findStudyList(){
+        return jpaQueryFactory
+                .select(new QStudyBoardListDto(
+                        studyBoard.id,
+                        user.username,
+                        user.picUrl,
+                        studyBoard.title,
+                        studyBoard.participants,
+                        studyBoard.endDate,
+                        studyBoard.icon))
+                .from(studyBoard)
+                .join(user).on(studyBoard.userId.eq(user.id))
+                .where(studyBoard.isWithdrawal.eq(false))
+                .orderBy(studyBoard.createdAt.desc())
+                .fetch();
+    }
 }

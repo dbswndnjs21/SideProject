@@ -2,7 +2,6 @@ package com.sideproject.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
-
 import java.time.LocalDate;
 
 @Getter

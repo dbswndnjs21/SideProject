@@ -12,7 +12,7 @@ public class StudyBoardDto {
     private String title;
     private LocalDate endDate; // 모집 마감 일자
     private Integer state; // 1: 모집중 0: 모집완료
-    private Integer icon; // 기술스택 아이콘
+    private String icon; // 기술스택 아이콘
     private String description; // 프로젝트에 관한 간략한 설명
     private Integer participants; // 모집인원
     private LocalDate strDate; // 시작예정일
