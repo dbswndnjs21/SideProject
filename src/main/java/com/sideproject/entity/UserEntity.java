@@ -25,5 +25,5 @@ public class UserEntity {
 
     private String role;
     private String picUrl;
-    private Integer isWithdrawal;
+    private Integer isWithdrawal;;
 }
