@@ -12,4 +12,10 @@ public class LikesDto {
     private Boolean isLiked;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public LikesDto(Long userId, Long studyBoardId, Boolean isLiked) {
+        this.userId = userId;
+        this.StudyBoardId = studyBoardId;
+        this.isLiked = isLiked;
+    }
 }

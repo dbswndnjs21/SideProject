@@ -23,7 +23,7 @@ public class Likes {
     private Long userId;
 
     @Column(name = "study_board_id")
-    private Long StudyBoardId;
+    private Long studyBoardId;
 
     @Column(name = "is_liked")
     private Boolean isLiked;

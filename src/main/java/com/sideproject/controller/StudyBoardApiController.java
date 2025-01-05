@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/get")
 @RequiredArgsConstructor
-public class GetStudyBoardApiController {
+public class StudyBoardApiController {
     private final StudyBoardService studyBoardService;
 
     @GetMapping("/detail/{id}")
