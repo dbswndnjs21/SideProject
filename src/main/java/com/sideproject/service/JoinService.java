@@ -28,6 +28,7 @@ public class JoinService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .role("ROLE_ADMIN")
+                .isWithdrawal(0)
                 .build();
 
         userRepository.save(userEntity);
