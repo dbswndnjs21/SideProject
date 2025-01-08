@@ -28,10 +28,11 @@
     stompClient.connect({}, (frame) => {
         console.log('WebSocket 연결 성공:', frame);
 
-        // 서버로부터 문서 요청
+        // 서버로부터 문서 요청  / 여기서의 id가 document의 id로 변경해서 사용하면됨
         stompClient.send("/app/getDocument", {}, JSON.stringify({ id: '1' }));
 
         stompClient.subscribe('/topic/documents', (message) => {
+            // 여기가 id1번 문서의 내용들이 있는것
             const updatedDocument = JSON.parse(message.body);
             console.log('수신된 문서:', updatedDocument);
             document.getElementById('editor').textContent = updatedDocument.content.join('\n');

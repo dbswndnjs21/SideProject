@@ -1,6 +1,6 @@
 package com.sideproject.service;
 
-import com.sideproject.dto.JoinDTO;
+import com.sideproject.dto.JoinDto;
 import com.sideproject.entity.UserEntity;
 import com.sideproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class JoinService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void joinProcess(JoinDTO joinDTO) {
+    public void joinProcess(JoinDto joinDTO) {
         String username = joinDTO.getUsername();
         String password = joinDTO.getPassword();
 
