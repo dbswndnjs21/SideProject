@@ -23,10 +23,21 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String uri = request.getRequestURI();
+        System.out.println("Filtering URI: " + uri); // 요청 URI 확인용 로그
+        // /join 요청은 필터를 통과시킴
+        if ("/join".equals(uri)) {
+            filterChain.doFilter(request, response);
+            return;
+        } else if ("/test".equals(uri)){
+            filterChain.doFilter(request, response);
+            return;
+        }
+        System.out.println("필터 오는지");
 
         // 헤더에서 access키에 담긴 토큰을 꺼냄
         String accessToken = request.getHeader("access");
-
+        System.out.println("받은 access : " + accessToken);
       // 토큰이 없다면 다음 필터로 넘김
         if (accessToken == null) {
 
@@ -42,7 +53,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
             //response body
             PrintWriter writer = response.getWriter();
-            writer.print("access token expired");
+            writer.print("access token expired!");
 
             //response status code
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -67,6 +78,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
+        // 비밀번호는 인증후엔 필요하지않음
         UserEntity userEntity = UserEntity.builder()
                 .username(username)
                 .role(role)
