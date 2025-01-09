@@ -53,6 +53,7 @@ public class SecurityConfig {
                                 .requestMatchers("/home").permitAll()
                                 .requestMatchers("/reissue").permitAll()
                                 .requestMatchers("/index.html").permitAll()
+                                .requestMatchers("/home.html").permitAll()
                                 .requestMatchers("favicon.ico").permitAll()
                                 // test용 html
                                 .requestMatchers("/test.html").permitAll()
