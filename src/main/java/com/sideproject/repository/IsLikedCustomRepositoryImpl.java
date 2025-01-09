@@ -2,17 +2,25 @@ package com.sideproject.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideproject.entity.QLikes;
+import com.sideproject.entity.QUserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
-    private final QLikes likes = QLikes.likes;
+    private final QLikes likes = QLikes.likes; // likes 칼럼에 Username 아니고 userId로 넣어준 이유 -> username 수정 가능성
+    private final QUserEntity user = QUserEntity.userEntity;
 
     @Override
-    public Long updateLiked(Long userId, Long studyBoardId){
-        // delete에 의해 is_liked가 false가 된 데이터일수도 있기 때문에 확인하는 로직
+    @Transactional
+    public Long updateLiked(String username, Long studyBoardId){
+        // 1. 좋아요 누른 사용자의 userid 찾아오기
+        Long userId = searchUserId(username);
+
+        // 2. 좋아요 했다가 취소한 사용자인지 확인
         boolean isExisting = jpaQueryFactory
                 .selectFrom(likes)
                 .where(likes.userId.eq(userId)
@@ -37,10 +45,12 @@ public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
 
         // 그렇지 않고 처음 좋아요 클릭된 경우 데이터 삽입
         long insertedCount =  jpaQueryFactory
-                .insert (likes)
-                .set(likes.userId, userId)
-                .set(likes.studyBoardId, studyBoardId)
-                .set(likes.isLiked, true)
+                .insert(likes)
+                .columns(likes.userId, likes.studyBoardId, likes.isLiked)
+                .values(userId, studyBoardId, true)
+//                .set(likes.userId, userId)
+//                .set(likes.studyBoardId, studyBoardId)
+//                .set(likes.isLiked, true)
                 .execute();
 
         if(insertedCount > 0) {
@@ -51,7 +61,11 @@ public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
     }
 
     @Override
-    public Long deleteLiked(Long userId, Long studyBoardId) {
+    @Transactional
+    public Long deleteLiked(String username, Long studyBoardId) {
+        // 1. userId 찾아오기
+        Long userId = searchUserId(username);
+
         long deletedCount = jpaQueryFactory
                 .delete(likes)
                 .where(likes.userId.eq(userId)
@@ -63,4 +77,18 @@ public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
         return null;
     }
 
+    private Long searchUserId(String username) {
+        Long userId = jpaQueryFactory
+                .select(user.id)
+                .from(user)
+                .where(user.username.eq(username))
+                .fetchOne();
+
+        // 사용자가 없는 경우 exception 던지기
+        if(userId == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return userId;
+    }
 }

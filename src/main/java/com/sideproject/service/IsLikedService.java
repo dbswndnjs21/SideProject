@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 public class IsLikedService {
     private final IsLikedRepository isLikedRepository;
 
-    public Long updateLike(Long userId, Long studyBoardId){
-        return isLikedRepository.updateLiked(userId, studyBoardId);
+    public Long updateLike(String username, Long studyBoardId){
+        return isLikedRepository.updateLiked(username, studyBoardId);
     }
 
-    public Long deleteLike(Long userId, Long studyBoardId){
-        return isLikedRepository.deleteLiked(userId, studyBoardId);
+    public Long deleteLike(String username, Long studyBoardId){
+        return isLikedRepository.deleteLiked(username, studyBoardId);
     }
 }
