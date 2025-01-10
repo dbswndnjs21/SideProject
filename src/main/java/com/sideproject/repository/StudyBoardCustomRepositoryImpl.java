@@ -11,6 +11,7 @@ import com.sideproject.entity.QComments;
 import com.sideproject.entity.QStudyBoard;
 import com.sideproject.entity.QUserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class StudyBoardCustomRepositoryImpl implements StudyBoardCustomRepositor
     private final QUserEntity user = QUserEntity.userEntity;
 
     @Override
+    @Transactional(readOnly = true)
     public StudyBoardContentDto findStudyInfoById(Long id) {
         StudyBoardContentDto studyBoardContentDto = jpaQueryFactory
                 .select(Projections.fields(StudyBoardContentDto.class,
@@ -67,6 +69,7 @@ public class StudyBoardCustomRepositoryImpl implements StudyBoardCustomRepositor
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<StudyBoardListDto> findStudyList(){
         return jpaQueryFactory
                 .select(new QStudyBoardListDto(
