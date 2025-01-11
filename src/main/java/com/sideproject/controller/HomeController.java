@@ -14,7 +14,7 @@ import java.util.Iterator;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -23,6 +23,12 @@ public class HomeController {
         Iterator<? extends GrantedAuthority> iter = authorities.iterator();
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
+
+        Authentication authentication2 = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Is authenticated: " + authentication2.isAuthenticated());
+        System.out.println("Principal: " + authentication2.getPrincipal());
+        System.out.println("Authorities: " + authentication2.getAuthorities());
+
 
         return "main page " + name + " " + role;
     }

@@ -45,23 +45,29 @@ public class SecurityConfig {
                 // 인증 및 권한 설정
                 .authorizeHttpRequests(authorizeRequestsConfigurer ->
                         authorizeRequestsConfigurer
+                                .requestMatchers("/login", "/", "/join").permitAll()
                                 .requestMatchers("/members/sign-in").permitAll()
                                 .requestMatchers("/members/sign-up").permitAll()
                                 .requestMatchers("/members/test").hasRole("USER")
-                                .requestMatchers("/login", "/", "/join").permitAll()
                                 .requestMatchers("/admin").hasRole("ADMIN")
+                                .requestMatchers("/home").permitAll()
                                 .requestMatchers("/reissue").permitAll()
-                                .requestMatchers("/chatView").permitAll()
-                                .requestMatchers("/api/get/detail/**").permitAll()
-                                .requestMatchers("/api/get/list").permitAll()
-                                .requestMatchers("/chat/**").permitAll() // /chat/** 경로 허용
+                                .requestMatchers("/index.html").permitAll()
+                                .requestMatchers("favicon.ico").permitAll()
+                                // test용 html
+                                .requestMatchers("/test.html").permitAll()
+                                .requestMatchers("/login.html").permitAll()
+                                .requestMatchers("/ws/**", "/app/**", "/topic/**").permitAll()
                                 .anyRequest().authenticated())
+//                .formLogin(formLogin -> formLogin
+//                        .loginPage("/login") // 로그인 페이지
+////                        .loginProcessingUrl("/login") // 로그인 처리 URL
+//                        .defaultSuccessUrl("/", true)
+//                        .failureUrl("/login?error=true")) // 성공 후 루트("/")로 리다이렉트
+
 //                                .anyRequest().permitAll())
-                // JWT 필터 추가
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-//                        UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,refreshRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class)
                 .build();
     }
