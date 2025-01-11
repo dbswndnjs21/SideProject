@@ -20,6 +20,7 @@ public class StudyBoard {
     private Long id;
 
 //    private String username; join 해서 유저정보 가져오기
+    // TODO: username으로 변경
     @Column(name = "user_id")
     private Long userId;
 

@@ -1,7 +1,6 @@
 package com.sideproject.repository;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideproject.dto.CommentsDto;
 import com.sideproject.dto.QStudyBoardListDto;
