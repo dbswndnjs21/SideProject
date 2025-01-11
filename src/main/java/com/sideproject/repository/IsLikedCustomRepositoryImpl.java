@@ -67,7 +67,8 @@ public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
         Long userId = searchUserId(username);
 
         long deletedCount = jpaQueryFactory
-                .delete(likes)
+                .update(likes)
+                .set(likes.isLiked, false)
                 .where(likes.userId.eq(userId)
                         .and(likes.studyBoardId.eq(studyBoardId)))
                 .execute();
