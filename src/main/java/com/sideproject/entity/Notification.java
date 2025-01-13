@@ -17,11 +17,15 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // notificationType 테이블의 id
+    @Column(name = "notification_type_id")
+    private Long notificationTypeId;
+
     @Column(name = "title")
     private String title;
 
     @Column(name = "username")
-    private String userName;
+    private String receiver;
 
     @Column(name = "pic_url")
     private String picUrl;
@@ -32,10 +36,10 @@ public class Notification {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "is_read")
+    @Column(name = "is_read", nullable = false)
     private Boolean isRead;
 
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
     @Column(name = "created_at")

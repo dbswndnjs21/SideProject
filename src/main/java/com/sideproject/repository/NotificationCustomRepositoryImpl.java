@@ -8,4 +8,6 @@ import lombok.RequiredArgsConstructor;
 public class NotificationCustomRepositoryImpl implements NotificationCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
+//    @Override
+
 }
