@@ -1,10 +1,9 @@
 package com.sideproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,10 +14,14 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String username;
     private String password;
 
     private String role;
+
+    // Room과의 ManyToMany 관계를 RoomParticipant를 통해 간접적으로 설정
+    @OneToMany(mappedBy = "user")
+    private List<RoomParticipant> roomParticipants;
 }

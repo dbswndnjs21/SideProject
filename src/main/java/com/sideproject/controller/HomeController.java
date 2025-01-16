@@ -13,17 +13,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@ResponseBody
 @Controller
 public class HomeController {
 
+    @ResponseBody
     @GetMapping("/home")
     public ResponseEntity<Map<String, String>> home() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String role2 = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
                 .stream()
                 .findFirst()
-                .map(authority -> authority.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .orElse("ROLE_UNKNOWN");
 
         Map<String, String> response = new HashMap<>();
@@ -33,4 +35,8 @@ public class HomeController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/")
+    public String homePage() {
+        return "home";
+    }
 }
