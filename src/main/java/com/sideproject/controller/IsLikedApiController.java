@@ -20,6 +20,7 @@ public class IsLikedApiController {
     // TODO: 테스트 제거하고 username 클라이언트에서 받아와서 기능 동작하는지 확인
     // TODO: 반환타입 SSE 연결할 거 생각해서 추후 수정
 //    public String Liked(HttpServletRequest request, @RequestParam("studyBoardId")Long studyBoardId) {
+//    public String Liked(@RequestParam("studyBoardId") Long studyBoardId) {
     public String Liked(@RequestParam("studyBoardId") Long studyBoardId) {
         String username = "wltn"; // TODO: 테스트 끝나면 삭제
 //        String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -29,6 +30,9 @@ public class IsLikedApiController {
             // 좋아요 발생 알림 보내주기
             Long receiverId = isLikedService.getPostUserId(studyBoardId); // 글 작성자 userId
             Long userId = isLikedService.getUserIdfromUsername(username); // 좋아요 누른 사용자 userId
+
+            sseService.subscribe(receiverId);
+            sseService.subscribe(userId);
 
             sseService.sendNotification(receiverId, "작성자님 글에 좋아요 발생");
             sseService.sendNotification(userId, "방금 보신 글에 좋아요를 눌렀습니다");

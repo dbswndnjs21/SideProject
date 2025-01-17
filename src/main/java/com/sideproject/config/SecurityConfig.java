@@ -58,13 +58,13 @@ public class SecurityConfig {
                                 .requestMatchers("/test.html").permitAll()
                                 .requestMatchers("/login.html").permitAll()
                                 .requestMatchers("/ws/**", "/app/**", "/topic/**").permitAll()
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
+//                                .anyRequest().authenticated())
 //                .formLogin(formLogin -> formLogin
 //                        .loginPage("/login") // 로그인 페이지
 ////                        .loginProcessingUrl("/login") // 로그인 처리 URL
 //                        .defaultSuccessUrl("/", true)
 //                        .failureUrl("/login?error=true")) // 성공 후 루트("/")로 리다이렉트
-
 //                                .anyRequest().permitAll())
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class)
