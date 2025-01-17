@@ -3,6 +3,7 @@ package com.sideproject.controller;
 import com.sideproject.jwt.JWTUtil;
 import com.sideproject.service.IsLikedService;
 import com.sideproject.service.SseService;
+import com.sideproject.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ public class IsLikedApiController {
     private final IsLikedService isLikedService;
     private final JWTUtil jwtUtil; // user 정보를 가져오기 위해
     private final SseService sseService;
+    private final UserService userService;
 
     @PostMapping("/likes")
     // TODO: 테스트 제거하고 username 클라이언트에서 받아와서 기능 동작하는지 확인
@@ -29,10 +31,7 @@ public class IsLikedApiController {
         if(state > 0) {
             // 좋아요 발생 알림 보내주기
             Long receiverId = isLikedService.getPostUserId(studyBoardId); // 글 작성자 userId
-            Long userId = isLikedService.getUserIdfromUsername(username); // 좋아요 누른 사용자 userId
-
-            sseService.subscribe(receiverId);
-            sseService.subscribe(userId);
+            Long userId = userService.getUserIdfromUsername(username); // 좋아요 누른 사용자 userId
 
             sseService.sendNotification(receiverId, "작성자님 글에 좋아요 발생");
             sseService.sendNotification(userId, "방금 보신 글에 좋아요를 눌렀습니다");
