@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class NotificationDto {
     private Long id;
     private String title;
-    private String username;
+    private String receiver;
     private String picUrl;
     private String message;
     private Boolean isRead;
