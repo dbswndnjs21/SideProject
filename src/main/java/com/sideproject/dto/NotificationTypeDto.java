@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class NotificationTypeDto {
     private Long id;
-    private Integer notificationType;
+    private String notificationType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
