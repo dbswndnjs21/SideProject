@@ -23,9 +23,10 @@ public class NotificationCustomRepositoryImpl implements NotificationCustomRepos
 
         long saveNotificationCount = jpaQueryFactory
                 .insert(notification)
+                // TODO: 클릭시 사용자가 이동하게 될 url 추가하기
                 .columns(notification.title, notification.receiver, notification.picUrl, notification.message, notification.isRead,
-                         notification.isDeleted)
-                .values("좋아요 알림", username, picUrl, username + "님의 " + title + "에 좋아요가 눌렸습니다😊", false, false)
+                         notification.isDeleted, notification.notificationTypeId)
+                .values("좋아요 알림", username, picUrl, username + "님의 " + title + "에 좋아요가 눌렸습니다😊", false, false, 1)
                 .execute();
 
         // 정상적으로 저장된 경우
@@ -45,8 +46,8 @@ public class NotificationCustomRepositoryImpl implements NotificationCustomRepos
         long saveNotificationCount = jpaQueryFactory
                 .insert(notification)
                 .columns(notification.title, notification.receiver, notification.picUrl, notification.message, notification.isRead,
-                        notification.isDeleted)
-                .values("좋아요 알림", username, picUrl, username + "님이 " + title + "에 좋아요를 눌렀습니다😊", false, false)
+                        notification.isDeleted, notification.notificationTypeId)
+                .values("좋아요 알림", username, picUrl, username + "님이 " + title + "에 좋아요를 눌렀습니다😊", false, false, 1)
                 .execute();
 
         // 정상적으로 저장된 경우

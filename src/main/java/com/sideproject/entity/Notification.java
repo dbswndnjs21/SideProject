@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Notification {
+    // TODO: table 수정!!
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
