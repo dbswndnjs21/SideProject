@@ -1,6 +1,5 @@
 package com.sideproject.repository;
 
-import com.sideproject.dto.NotificationDto;
 import com.sideproject.entity.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 

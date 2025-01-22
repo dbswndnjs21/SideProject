@@ -17,16 +17,15 @@ public class NotificationCustomRepositoryImpl implements NotificationCustomRepos
 
     @Override
     @Transactional
-    public Long likedYourPost(Long userId, Long studyBoardId){ // 작성자의 글에 좋아요 발생 알림 데이터 적재
-        String writer = findWriterbyStudyBoardId(studyBoardId);
-        String picUrl = findPicUrlUserId(userId);
+    public Long likedYourPost(String username, Long studyBoardId){ // 작성자의 글에 좋아요 발생 알림 데이터 적재
+        String picUrl = findPicUrlUserId(username);
         String title = findStudyBoardTitleByStudyBoardId(studyBoardId);
 
         long saveNotificationCount = jpaQueryFactory
                 .insert(notification)
                 .columns(notification.title, notification.receiver, notification.picUrl, notification.message, notification.isRead,
                          notification.isDeleted)
-                .values("좋아요 알림", writer, picUrl, writer + "님의 " + title + "에 좋아요가 눌렸습니다😊", false, false)
+                .values("좋아요 알림", username, picUrl, username + "님의 " + title + "에 좋아요가 눌렸습니다😊", false, false)
                 .execute();
 
         // 정상적으로 저장된 경우
@@ -39,16 +38,15 @@ public class NotificationCustomRepositoryImpl implements NotificationCustomRepos
 
     @Override
     @Transactional
-    public Long likedThisPost(Long userId, Long studyBoardId){ // 사용자가 좋아요 누름 알림 데이터 적재
-        String receiver = findUsernamebyUserId(userId);
-        String picUrl = findPicUrlUserId(userId);
+    public Long likedThisPost(String username, Long studyBoardId){ // 사용자가 좋아요 누름 알림 데이터 적재
+        String picUrl = findPicUrlUserId(username);
         String title = findStudyBoardTitleByStudyBoardId(studyBoardId);
 
         long saveNotificationCount = jpaQueryFactory
                 .insert(notification)
                 .columns(notification.title, notification.receiver, notification.picUrl, notification.message, notification.isRead,
                         notification.isDeleted)
-                .values("좋아요 알림", receiver, picUrl, receiver + "님이 " + title + "에 좋아요를 눌렀습니다😊", false, false)
+                .values("좋아요 알림", username, picUrl, username + "님이 " + title + "에 좋아요를 눌렀습니다😊", false, false)
                 .execute();
 
         // 정상적으로 저장된 경우
@@ -59,37 +57,41 @@ public class NotificationCustomRepositoryImpl implements NotificationCustomRepos
         return null;
     }
 
-    public String findUsernamebyUserId(Long userId) { // 사용자의 userId
-        String receiver = jpaQueryFactory
-                .select(user.username)
-                .from(user)
-                .where(user.id.eq(userId))
-                .fetchOne();
+//    @Transactional(readOnly = true)
+//    public String findUsernamebyUserId(Long userId) { // 사용자의 userId
+//        String receiver = jpaQueryFactory
+//                .select(user.username)
+//                .from(user)
+//                .where(user.id.eq(userId))
+//                .fetchOne();
+//
+//        return receiver;
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public String findWriterbyStudyBoardId(Long studyBoardId) { // 좋아요 눌린 게시글 작성자의 userId
+//        String writer = jpaQueryFactory
+//                .select(user.username)
+//                .from(user)
+//                .join(studyBoard).on(user.id.eq(studyBoard.userId))
+//                .where(studyBoard.id.eq(studyBoardId))
+//                .fetchOne();
+//
+//        return writer;
+//    }
 
-        return receiver;
-    }
-
-    public String findWriterbyStudyBoardId(Long studyBoardId) { // 좋아요 눌린 게시글 작성자의 userId
-        String writer = jpaQueryFactory
-                .select(user.username)
-                .from(user)
-                .join(studyBoard).on(user.id.eq(studyBoard.userId))
-                .where(studyBoard.id.eq(studyBoardId))
-                .fetchOne();
-
-        return writer;
-    }
-
-    public String findPicUrlUserId(Long userId) {
+    @Transactional(readOnly = true)
+    public String findPicUrlUserId(String username) {
         String picUrl = jpaQueryFactory
                 .select(user.picUrl)
                 .from(user)
-                .where(user.id.eq(userId))
+                .where(user.username.eq(username))
                 .fetchOne();
 
         return picUrl;
     }
 
+    @Transactional(readOnly = true)
     public String findStudyBoardTitleByStudyBoardId(Long studyBoardId) {
         String title = jpaQueryFactory
                 .select(studyBoard.title)

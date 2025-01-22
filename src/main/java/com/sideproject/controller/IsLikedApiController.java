@@ -2,6 +2,7 @@ package com.sideproject.controller;
 
 import com.sideproject.jwt.JWTUtil;
 import com.sideproject.service.IsLikedService;
+import com.sideproject.service.NotificationService;
 import com.sideproject.service.SseService;
 import com.sideproject.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ public class IsLikedApiController {
     private final JWTUtil jwtUtil; // user 정보를 가져오기 위해
     private final SseService sseService;
     private final UserService userService;
+    private final NotificationService notificationService; // notification 데이터 적재를 위해
 
     @PostMapping("/likes")
     // TODO: 테스트 제거하고 username 클라이언트에서 받아와서 기능 동작하는지 확인
@@ -31,9 +33,12 @@ public class IsLikedApiController {
             Long receiverId = isLikedService.getPostUserId(studyBoardId); // 글 작성자 userId
             Long userId = userService.getUserIdfromUsername(username); // 좋아요 누른 사용자 userId
 
-            // TODO: SSE 실시간 알림 보냄과 동시에 알림 테이블에 알림 데이터 적재하기
             sseService.sendNotification(receiverId, "작성자님 글에 좋아요 발생");
             sseService.sendNotification(userId, "방금 보신 글에 좋아요를 눌렀습니다");
+
+            // 알림 데이터 저장
+            notificationService.updateLikedToWriterNotification(username, studyBoardId);
+            notificationService.updateLikedToUserNotification(username, studyBoardId);
             return "success";
         }
         return "fail";

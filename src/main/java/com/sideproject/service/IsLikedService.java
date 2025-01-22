@@ -28,9 +28,4 @@ public class IsLikedService {
                 .getUserId();
     }
 
-//    // username으로부터 userId 가져오는 메서드
-//    public Long getUserIdfromUsername(String username){
-//        return userRepository.findByUsername(username)
-//                .getId();
-//    }
 }
