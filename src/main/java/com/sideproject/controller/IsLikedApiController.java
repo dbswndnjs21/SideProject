@@ -44,7 +44,7 @@ public class IsLikedApiController {
         return "fail";
     }
 
-    // TODO: 좋아요 알림 기능 추가하기
+    // TODO: 좋아요 취소 알림 기능 추가하기
     @PostMapping("/canceled/liked")
     public String CanceledLiked(@RequestParam("studyBoardId") Long studyBoardId) {
         String username = "wltn"; // TODO: 테스트 끝나면 삭제

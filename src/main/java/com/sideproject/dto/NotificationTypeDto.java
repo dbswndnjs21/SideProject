@@ -1,6 +1,5 @@
 package com.sideproject.dto;
 
-import com.sideproject.entity.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,16 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NotificationDto {
+public class NotificationTypeDto {
     private Long id;
-    private Long notificationTypeId;
-    private String title;
-    private String receiver;
-    private String sender;
-    private String picUrl;
-    private String message;
-    private Boolean isRead;
-    private Boolean isDeleted;
+    private Integer notificationType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

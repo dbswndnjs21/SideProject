@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Notification {
-    // TODO: table 수정!!
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +24,11 @@ public class Notification {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "username")
+    @Column(name = "recevier")
     private String receiver;
+
+    @Column(name = "sender")
+    private String sender;
 
     @Column(name = "pic_url")
     private String picUrl;
@@ -45,4 +47,7 @@ public class Notification {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
