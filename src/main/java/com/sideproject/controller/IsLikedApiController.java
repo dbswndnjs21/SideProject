@@ -7,6 +7,9 @@ import com.sideproject.service.SseService;
 import com.sideproject.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class IsLikedApiController {
+    private static final Logger log = LoggerFactory.getLogger(IsLikedApiController.class);
     private final IsLikedService isLikedService;
     private final JWTUtil jwtUtil; // user 정보를 가져오기 위해
     private final SseService sseService;

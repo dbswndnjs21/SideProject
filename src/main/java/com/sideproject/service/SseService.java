@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,9 @@ public class SseService {
     // SSE 연결을 위해서 필요한 메서드 : 구독
     public SseEmitter subscribe(Long userId) {
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
+        // TODO: 데이터 유실 시점 파악을 위해 emitter에 추가하기
+        //데이터 유실 시점 파악을 위해 id 변수에 담기
+        String id = userId + "_" + System.currentTimeMillis();
         emitterRepository.save(userId, emitter);
 
         // emitter 완료 -> emitter 삭제
@@ -24,6 +29,14 @@ public class SseService {
         // emitter 타임아웃(이벤트 전송 X) -> emitter 삭제
         emitter.onTimeout(() -> emitterRepository.deleteById(userId));
 
+        try{
+            emitter.send(SseEmitter.event()
+                    .name("connect")
+                    .data("connedted"));
+            emitterRepository.save(userId, emitter);
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
         log.info("SSE subscribe: {}", emitterRepository.get(userId));
         return emitter;
     }
