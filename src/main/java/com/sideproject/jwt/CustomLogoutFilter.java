@@ -42,6 +42,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
             return;
         }
 
+        System.out.println("로그아웃 필터 탔는지 확인");
         //get refresh token
         String refresh = null;
         Cookie[] cookies = request.getCookies();

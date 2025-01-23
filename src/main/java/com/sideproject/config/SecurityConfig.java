@@ -24,8 +24,6 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-//    private final JwtTokenProvider jwtTokenProvider;
-    //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
@@ -45,20 +43,29 @@ public class SecurityConfig {
                 // 인증 및 권한 설정
                 .authorizeHttpRequests(authorizeRequestsConfigurer ->
                         authorizeRequestsConfigurer
-                                .requestMatchers("/members/sign-in").permitAll()
-                                .requestMatchers("/members/sign-up").permitAll()
-                                .requestMatchers("/members/test").hasRole("USER")
-                                .requestMatchers("/login", "/", "/join").permitAll()
-                                .requestMatchers("/admin").hasRole("ADMIN")
+//                                .requestMatchers("/login", "/", "/join").permitAll()
+                                .requestMatchers("/login", "/join").permitAll()
+                                .requestMatchers("/websocket").permitAll()
+                                .requestMatchers("/websocketForm").permitAll()
+                                .requestMatchers("/documents").permitAll()
+                                .requestMatchers("/websocketList").permitAll()
+                                .requestMatchers("/websocketCreate").permitAll()
+                                .requestMatchers("/users").permitAll()
+                                .requestMatchers("/rooms").permitAll()
+                                .requestMatchers("/").permitAll()
                                 .requestMatchers("/reissue").permitAll()
-                                .requestMatchers("/chatView").permitAll()
-                                .requestMatchers("/chat/**").permitAll() // /chat/** 경로 허용
+                                .requestMatchers("favicon.ico").permitAll()
+                                .requestMatchers("/ws/**", "/app/**", "/topic/**").permitAll()
                                 .anyRequest().authenticated())
-                // JWT 필터 추가
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-//                        UsernamePasswordAuthenticationFilter.class)
+//                .formLogin(formLogin -> formLogin
+//                        .loginPage("/login") // 로그인 페이지
+////                        .loginProcessingUrl("/login") // 로그인 처리 URL
+//                        .defaultSuccessUrl("/", true)
+//                        .failureUrl("/login?error=true")) // 성공 후 루트("/")로 리다이렉트
+
+//                                .anyRequest().permitAll())
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,refreshRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class)
                 .build();
     }

@@ -14,6 +14,7 @@ public class TokenCleanupScheduler {
     private final RefreshRepository refreshRepository;
 
     @Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행
+//    @Scheduled(cron = "*/10 * * * * *")
     public void cleanUpExpiredTokens() {
         // 현재 날짜
         String currentDate = new Date().toString();
