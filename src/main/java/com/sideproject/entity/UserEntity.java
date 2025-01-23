@@ -20,7 +20,8 @@ public class UserEntity {
     private String password;
 
     private String role;
-
+    private String picUrl;
+    private Integer isWithdrawal;
     // Room과의 ManyToMany 관계를 RoomParticipant를 통해 간접적으로 설정
     @OneToMany(mappedBy = "user")
     private List<RoomParticipant> roomParticipants;
