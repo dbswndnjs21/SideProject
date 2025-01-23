@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeS</title>
+</head>
+<body>
+<h1>Welcome to Home</h1>
+<p>Username: <span id="username"></span></p>
+<p>Role: <span id="role"></span></p>
+
+<!-- 로그아웃 버튼 추가 -->
+<button id="logoutBtn">Logout</button>
+
+<!-- 로그인 버튼 추가 -->
+<button id="loginBtn">Login</button>
+
+<button id="websocketBtn">websocket</button>
+
+<button id="websocketListBtn">websocketList</button>
+
+<button id="websocketCreateBtn">협업 문서 생성</button>
+
+
+
+<script>
+    // 페이지 로드 시 /home API 호출
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            // /home API 호출
+            await fetchHomeData();
+        } catch (error) {
+            console.error(error);
+            alert("Failed to load user data.");
+        }
+    });
+
+    async function fetchHomeData() {
+        const accessToken = localStorage.getItem("access");
+        if (!accessToken) {
+            alert("Access token is missing. Redirecting to login page.");
+            // window.location.href = "/login";
+            return;
+        }
+
+        try {
+            const response = await fetch("/home", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "access": accessToken,
+                },
+            });
+
+            if (response.status === 401) {
+                console.warn("Access token expired. Reissuing tokens...");
+                // 401일 경우 /reissue 호출
+                const reissueSuccess = await reissueTokens();
+                if (reissueSuccess) {
+                    console.log("Tokens refreshed. Retrying /home...");
+                    await fetchHomeData(); // 새 토큰으로 /home 호출 재시도
+                } else {
+                    throw new Error("Reissue failed. Redirecting to login.");
+                }
+            } else if (response.ok) {
+                const data = await response.json();
+                document.getElementById("username").textContent = data.username;
+                document.getElementById("role").textContent = data.role;
+            } else {
+                throw new Error("Failed to load user data.");
+            }
+        } catch (error) {
+            console.error("Error during /home fetch:", error);
+            alert("Session expired. Please log in again.");
+            window.location.href = "/login";
+        }
+    }
+
+    // 로그아웃 버튼 클릭 시 로그아웃 요청
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+        const accessToken = localStorage.getItem("access");
+        if (!accessToken) {
+            alert("Access token is missing.");
+            return;
+        }
+
+        // 쿠키에서 refresh 토큰 가져오기
+        // const refreshToken = getCookie('refresh');
+        // if (!refreshToken) {
+        //     alert("Refresh token is missing.");
+        //     return;
+        // }
+
+        try {
+            const response = await fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "access": accessToken,
+                    // "refresh": refreshToken, // 쿠키에서 가져온 refresh 토큰을 헤더에 추가
+                },
+                credentials: 'include'  // 쿠키를 요청에 포함시킴
+            });
+
+            if (response.ok) {
+                // 로그아웃 후 로컬 스토리지에서 토큰 삭제
+                localStorage.removeItem('access');
+                alert("Logged out successfully.");
+                // 로그아웃 후 로그인 페이지로 리다이렉트
+                window.location.href = "/";
+            } else {
+                alert("Failed to log out.");
+            }
+        } catch (error) {
+            console.error("Error during logout:", error);
+            alert("An error occurred while logging out.");
+        }
+    });
+
+    // 로그인 버튼 클릭 시 /login 페이지로 이동
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        window.location.href = "/login";
+    });
+
+    document.getElementById('websocketBtn').addEventListener('click', () => {
+        window.location.href = "/websocket";
+    })
+
+    document.getElementById('websocketListBtn').addEventListener('click', () => {
+        window.location.href = "/websocketList";
+    })
+
+    document.getElementById('websocketCreateBtn').addEventListener('click', () => {
+        window.location.href = "/websocketCreate";
+    })
+
+
+
+
+    // html로 하면 안됨
+
+    // 쿠키에서 값 가져오는 함수
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+
+    async function reissueTokens() {
+        try {
+            const response = await fetch("/reissue", {
+                method: "POST",
+                credentials: "include", // 쿠키로 refresh token을 보냄
+            });
+
+            if (response.ok) {
+                const newAccessToken = response.headers.get("access");
+                localStorage.setItem("access", newAccessToken);
+                console.log("Access token refreshed successfully.");
+                return true;
+            } else {
+                console.error("Reissue failed with status:", response.status)
+                if (response.status === 401) {
+                    console.log("refresh 토큰이 만료되어 재 로그인 해주시기 바립니다")
+                    alert("refresh 토큰이 만료되어 재 로그인 해주시기 바립니다")
+                    window.location.href = "/login";
+                }
+                return false;
+            }
+        } catch (error) {
+            console.error("Error during token reissue:", error);
+            return false;
+        }
+    }
+</script>
+
+</body>
+</html>

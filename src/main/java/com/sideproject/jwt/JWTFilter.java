@@ -29,7 +29,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if ("/join".equals(uri)) {
             filterChain.doFilter(request, response);
             return;
-        } else if ("/test".equals(uri)){
+        } else if ("/reissue".equals(uri)){
             filterChain.doFilter(request, response);
             return;
         }
@@ -40,6 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
         System.out.println("받은 access : " + accessToken);
       // 토큰이 없다면 다음 필터로 넘김
         if (accessToken == null) {
+            System.out.println("토큰없음");
 
             filterChain.doFilter(request, response);
 
@@ -50,7 +51,6 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             jwtUtil.isExpired(accessToken);
         } catch (ExpiredJwtException e) {
-
             //response body
             PrintWriter writer = response.getWriter();
             writer.print("access token expired!");

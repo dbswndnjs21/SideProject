@@ -24,8 +24,6 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-//    private final JwtTokenProvider jwtTokenProvider;
-    //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
@@ -45,18 +43,18 @@ public class SecurityConfig {
                 // 인증 및 권한 설정
                 .authorizeHttpRequests(authorizeRequestsConfigurer ->
                         authorizeRequestsConfigurer
-                                .requestMatchers("/login", "/", "/join").permitAll()
-                                .requestMatchers("/members/sign-in").permitAll()
-                                .requestMatchers("/members/sign-up").permitAll()
-                                .requestMatchers("/members/test").hasRole("USER")
-                                .requestMatchers("/admin").hasRole("ADMIN")
-                                .requestMatchers("/home").permitAll()
+//                                .requestMatchers("/login", "/", "/join").permitAll()
+                                .requestMatchers("/login", "/join").permitAll()
+                                .requestMatchers("/websocket").permitAll()
+                                .requestMatchers("/websocketForm").permitAll()
+                                .requestMatchers("/documents").permitAll()
+                                .requestMatchers("/websocketList").permitAll()
+                                .requestMatchers("/websocketCreate").permitAll()
+                                .requestMatchers("/users").permitAll()
+                                .requestMatchers("/rooms").permitAll()
+                                .requestMatchers("/").permitAll()
                                 .requestMatchers("/reissue").permitAll()
-                                .requestMatchers("/index.html").permitAll()
                                 .requestMatchers("favicon.ico").permitAll()
-                                // test용 html
-                                .requestMatchers("/test.html").permitAll()
-                                .requestMatchers("/login.html").permitAll()
                                 .requestMatchers("/ws/**", "/app/**", "/topic/**").permitAll()
                                 .anyRequest().permitAll())
 //                                .anyRequest().authenticated())
