@@ -29,7 +29,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if ("/join".equals(uri)) {
             filterChain.doFilter(request, response);
             return;
-        } else if ("/test".equals(uri)){
+        } else if ("/reissue".equals(uri)){
             filterChain.doFilter(request, response);
             return;
         }
@@ -51,7 +51,6 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             jwtUtil.isExpired(accessToken);
         } catch (ExpiredJwtException e) {
-
             //response body
             PrintWriter writer = response.getWriter();
             writer.print("access token expired!");
