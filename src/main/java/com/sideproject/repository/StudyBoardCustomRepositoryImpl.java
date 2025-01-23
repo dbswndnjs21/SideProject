@@ -1,25 +1,30 @@
 package com.sideproject.repository;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideproject.dto.CommentsDto;
+import com.sideproject.dto.QStudyBoardListDto;
 import com.sideproject.dto.StudyBoardContentDto;
+import com.sideproject.dto.StudyBoardListDto;
 import com.sideproject.entity.QComments;
 import com.sideproject.entity.QStudyBoard;
-import com.sideproject.entity.QUser;
+import com.sideproject.entity.QUserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepository {
+public class StudyBoardCustomRepositoryImpl implements StudyBoardCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     private final QComments comments = QComments.comments;
     private final QStudyBoard studyBoard = QStudyBoard.studyBoard;
-    private final QUser user = QUser.user;
+    private final QUserEntity user = QUserEntity.userEntity;
 
     @Override
+    @Transactional(readOnly = true)
     public StudyBoardContentDto findStudyInfoById(Long id) {
         StudyBoardContentDto studyBoardContentDto = jpaQueryFactory
                 .select(Projections.fields(StudyBoardContentDto.class,
@@ -37,7 +42,9 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepositor
                         user.username))
                 .from(studyBoard)
                 .join(user).on(studyBoard.userId.eq(user.id))
-                .where(studyBoard.id.eq(id).and(studyBoard.isWithdrawal.eq(false))) // and studyBoard.isWithdraw 칼럼이 0 인것도 추가
+                .where(studyBoard.id.eq(id)
+                        .and(studyBoard.isWithdrawal.eq(false))
+                        .and(user.isWithdrawal.eq(0))) // and studyBoard.isWithdraw 칼럼이 0 인것도 추가
                 .orderBy(studyBoard.id.desc())
                 .fetchOne();
 
@@ -54,10 +61,29 @@ public class StudyBoardRepositoryCustomImpl implements StudyBoardCustomRepositor
                 .orderBy(comments.createdAt.desc())
                 .fetch();
 
-        if(studyBoardContentDto != null) {
-            studyBoardContentDto.setComment(comment);
-        }
+//        if(studyBoardContentDto != null) {
+//            studyBoardContentDto.setComment(comment);
+//        }
 
         return studyBoardContentDto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<StudyBoardListDto> findStudyList(){
+        return jpaQueryFactory
+                .select(new QStudyBoardListDto(
+                        studyBoard.id,
+                        user.username,
+                        user.picUrl,
+                        studyBoard.title,
+                        studyBoard.participants,
+                        studyBoard.endDate,
+                        studyBoard.icon))
+                .from(studyBoard)
+                .join(user).on(studyBoard.userId.eq(user.id))
+                .where(studyBoard.isWithdrawal.eq(false))
+                .orderBy(studyBoard.createdAt.desc())
+                .fetch();
     }
 }

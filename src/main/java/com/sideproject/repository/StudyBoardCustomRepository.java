@@ -1,9 +1,12 @@
 package com.sideproject.repository;
 
 import com.sideproject.dto.StudyBoardContentDto;
-import org.springframework.stereotype.Repository;
+import com.sideproject.dto.StudyBoardListDto;
 
-@Repository
+import java.util.List;
+
 public interface StudyBoardCustomRepository {
     StudyBoardContentDto findStudyInfoById(Long id);
+
+    List<StudyBoardListDto> findStudyList();
 }
