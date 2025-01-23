@@ -21,6 +21,7 @@ public class SseController {
     @GetMapping(value = "/notification/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 //    public SseEmitter notification(@PathVariable("username") String username) {
     public SseEmitter notification(String username) {
+        // TODO: last id 추가해서 클라이언트가 미수신한 Event 유실 예방
         // TODO: 좋아요 클릭시 글 작성자에 대한 emitter 열어주는 거 어디에 추가할 지 고민, 여기에 추가하면 SRP 위반
         // 로그인시 username으로 담겨있어서 userId로 변환
         Long userId = userService.getUserIdfromUsername(username);

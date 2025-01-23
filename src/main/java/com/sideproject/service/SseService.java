@@ -30,6 +30,7 @@ public class SseService {
         emitter.onTimeout(() -> emitterRepository.deleteById(id));
 
         try{
+            // 503 에러 방지를 위하 더미 데이터 전송
             emitter.send(SseEmitter.event()
                             .id(id)
                     .name("sse")
