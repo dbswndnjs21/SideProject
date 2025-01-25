@@ -78,7 +78,7 @@ public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
         return null;
     }
 
-    private Long searchUserId(String username) {
+    public Long searchUserId(String username) {
         Long userId = jpaQueryFactory
                 .select(user.id)
                 .from(user)
