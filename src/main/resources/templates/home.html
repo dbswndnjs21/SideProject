@@ -22,6 +22,8 @@
 
 <button id="websocketCreateBtn">협업 문서 생성</button>
 
+<button id="boardBtn">스터디 찾으러 가기</button>
+
 
 
 <script>
@@ -133,6 +135,10 @@
 
     document.getElementById('websocketCreateBtn').addEventListener('click', () => {
         window.location.href = "/websocketCreate";
+    })
+
+    document.getElementById('boardBtn').addEventListener('click', () => {
+        window.location.href = "/studyList";
     })
 
 

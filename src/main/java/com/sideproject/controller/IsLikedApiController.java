@@ -7,9 +7,11 @@ import com.sideproject.service.SseService;
 import com.sideproject.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +27,10 @@ public class IsLikedApiController {
     private final NotificationService notificationService; // notification 데이터 적재를 위해
 
     @PostMapping("/likes")
-    // TODO: 테스트 제거하고 username 클라이언트에서 받아와서 기능 동작하는지 확인
-//    public String Liked(HttpServletRequest request, @RequestParam("studyBoardId")Long studyBoardId) {
+    // TODO: username 클라이언트에서 받아와서 기능 동작하는지 확인
     public String Liked(@RequestParam("studyBoardId") Long studyBoardId) {
-        String username = "wltn"; // TODO: 테스트 끝나면 삭제
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(username);
 
         Long state = isLikedService.updateLike(username, studyBoardId);
         if(state > 0) {
@@ -51,7 +52,7 @@ public class IsLikedApiController {
     // TODO: 좋아요 취소 알림 기능 추가하기
     @PostMapping("/canceled/liked")
     public String CanceledLiked(@RequestParam("studyBoardId") Long studyBoardId) {
-        String username = "wltn"; // TODO: 테스트 끝나면 삭제
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Long state = isLikedService.deleteLike(username, studyBoardId);
         if(state > 0) {

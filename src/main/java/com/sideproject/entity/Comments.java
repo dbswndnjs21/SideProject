@@ -28,9 +28,12 @@ public class Comments {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "createdAt")
+    @Column(name = "is_withdrawal")
+    private Boolean isWithdrawal;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updatedAt")
+    @Column(name = "update_at")
     private LocalDateTime updatedAt;
 }
