@@ -9,4 +9,6 @@ public interface StudyBoardCustomRepository {
     StudyBoardContentDto findStudyInfoById(Long id);
 
     List<StudyBoardListDto> findStudyList();
+
+//    void saveStudyBoardContent(String username);
 }

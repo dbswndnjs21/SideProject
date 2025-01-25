@@ -20,4 +20,6 @@ public class StudyBoardService {
     public List<StudyBoardListDto> findStudyListOrderByDESC() {
         return studyBoardRepository.findStudyList();
     }
+
+//    public Long savePost()
 }

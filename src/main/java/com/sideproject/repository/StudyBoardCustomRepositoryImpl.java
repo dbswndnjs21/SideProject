@@ -1,7 +1,6 @@
 package com.sideproject.repository;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideproject.dto.CommentsDto;
 import com.sideproject.dto.QStudyBoardListDto;
@@ -15,9 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 @RequiredArgsConstructor
 public class StudyBoardCustomRepositoryImpl implements StudyBoardCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
+
+    // user에 관한 공통 메서드 사용을 위해 생성자 주입
+    private final IsLikedCustomRepositoryImpl isLikedCustomRepository;
 
     private final QComments comments = QComments.comments;
     private final QStudyBoard studyBoard = QStudyBoard.studyBoard;
@@ -86,4 +89,16 @@ public class StudyBoardCustomRepositoryImpl implements StudyBoardCustomRepositor
                 .orderBy(studyBoard.createdAt.desc())
                 .fetch();
     }
+
+//    @Override
+//    public void saveStudyBoardContent(String username) {
+//        Long userId = isLikedCustomRepository.searchUserId(username);
+//
+//        long saveStudyBoardContentCount = jpaQueryFactory
+//                .insert(studyBoard)
+//                .columns(studyBoard.userId, studyBoard.title, studyBoard.endDate, studyBoard.state, studyBoard.icon, studyBoard.description, studyBoard.participants, studyBoard.strDate, studyBoard.estimatedTime, studyBoard.isWithdrawal)
+//                .values(userId, )
+//
+//
+//    }
 }

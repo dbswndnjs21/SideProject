@@ -24,4 +24,9 @@ public class UserService {
         UserEntity user = userRepository.findByUsername(username);
         return new UserEntityDto(user);
     }
+
+    public Long getUserIdfromUsername(String username) {
+        return userRepository.findByUsername(username)
+                .getId();
+    }
 }

@@ -1,6 +1,8 @@
 package com.sideproject.service;
 
 import com.sideproject.repository.IsLikedRepository;
+import com.sideproject.repository.StudyBoardRepository;
+import com.sideproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class IsLikedService {
     private final IsLikedRepository isLikedRepository;
+    private final StudyBoardRepository studyBoardRepository;
+    private final UserRepository userRepository;
 
     public Long updateLike(String username, Long studyBoardId){
         return isLikedRepository.updateLiked(username, studyBoardId);
@@ -16,4 +20,12 @@ public class IsLikedService {
     public Long deleteLike(String username, Long studyBoardId){
         return isLikedRepository.deleteLiked(username, studyBoardId);
     }
+
+    // 게시글 작성자 userId 찾는 메서드
+    public Long getPostUserId(Long studyBoardId){
+        return studyBoardRepository.findById(studyBoardId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."))
+                .getUserId();
+    }
+
 }
