@@ -52,6 +52,9 @@ dependencies {
     implementation 'com.google.guava:guava:31.0-jre'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // aop 구현을 위한 implementation
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 tasks.named('test') {
