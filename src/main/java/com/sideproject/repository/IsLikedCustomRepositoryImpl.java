@@ -4,9 +4,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideproject.entity.QLikes;
 import com.sideproject.entity.QUserEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
     private final JPAQueryFactory jpaQueryFactory;
@@ -17,6 +19,7 @@ public class IsLikedCustomRepositoryImpl implements IsLikedCustomRepository{
     @Override
     @Transactional
     public Long updateLiked(String username, Long studyBoardId){
+        log.info("[IsLikedRepository] update liked user 실행");
         // 1. 좋아요 누른 사용자의 userid 찾아오기
         Long userId = searchUserId(username);
 

@@ -4,10 +4,12 @@ import com.sideproject.jwt.JWTUtil;
 import com.sideproject.service.IsLikedService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class IsLikedApiController {
@@ -19,6 +21,7 @@ public class IsLikedApiController {
     // TODO: 반환타입 SSE 연결할 거 생각해서 추후 수정
 //    public String Liked(HttpServletRequest request, @RequestParam("studyBoardId")Long studyBoardId) {
     public String Liked(@RequestParam("studyBoardId") Long studyBoardId) {
+        log.info("[isLikedApiController] Liked study board: {}", studyBoardId);
         String username = "wltn"; // TODO: 테스트 끝나면 삭제
 //        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
