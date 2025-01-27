@@ -12,7 +12,6 @@ public class IsLikedService {
     private final IsLikedRepository isLikedRepository;
 
     public Long updateLike(String username, Long studyBoardId){
-        log.info("[updateLike] 실행");
         return isLikedRepository.updateLiked(username, studyBoardId);
     }
 
