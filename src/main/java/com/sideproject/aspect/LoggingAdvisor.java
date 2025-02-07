@@ -15,14 +15,21 @@ public class LoggingAdvisor {
     public void pointcut() {}
 
     @Around("pointcut()")
-    public void advice(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object advice(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getTarget().getClass().getName();
 
+        long startTime = System.currentTimeMillis(); // 시작 시간
+        long endTime = System.currentTimeMillis(); // 메서드 끝난 시간
+        long duration = endTime - startTime; // 실행 시간
+
         log.info("Starting method: {}, {}", methodName, className);
 
-        joinPoint.proceed();
+        Object result = joinPoint.proceed(); // 타깃 메서드 실행
+//        joinPoint.proceed();
 
         log.info("Ending method: {}, {}", methodName, className);
+
+        return result;
     }
 }
