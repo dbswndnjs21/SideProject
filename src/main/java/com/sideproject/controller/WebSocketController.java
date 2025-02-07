@@ -1,8 +1,8 @@
 package com.sideproject.controller;
 
-import ch.qos.logback.core.model.Model;
 import com.sideproject.dto.DocumentDto;
 import com.sideproject.service.DocumentService;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -20,18 +20,18 @@ public class WebSocketController {
 
 
     //setApplicationDestinationPrefixes 설정으로 MessageMapping에는 /app 경로가 접두사로 붙는다
-    @MessageMapping("/update")
-    @SendTo("/topic/documents") //여기랑
-    public DocumentDto updateDocument(DocumentDto document) {
+    @MessageMapping("/update/{id}")
+    @SendTo("/topic/documents/{id}") //여기랑
+    public DocumentDto updateDocument(@DestinationVariable String id, DocumentDto document) {
         documentService.createOrUpdateDocument(document);
         return document;
     }
 
     // 클라이언트가 문서를 요청하는 경로
-    @MessageMapping("/getDocument")
-    @SendTo("/topic/documents") //에 @SendTo("/topic/documents/{id}") 작업 해줘야함
+    @MessageMapping("/getDocument/{id}")
+    @SendTo("/topic/documents/{id}")
     // 값 받을땐@DestinationVariable 써서 하면됨
-    public DocumentDto getDocument(DocumentDto request) {
+    public DocumentDto getDocument(@DestinationVariable String id, DocumentDto request) {
         // 요청된 ID에 해당하는 문서를 Redis나 DB에서 조회
         DocumentDto document = documentService.findById(request.getId());
         return document;
