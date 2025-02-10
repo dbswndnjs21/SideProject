@@ -1,10 +1,9 @@
 package com.sideproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,5 +21,8 @@ public class UserEntity {
 
     private String role;
     private String picUrl;
-    private Integer isWithdrawal;;
+    private Integer isWithdrawal;
+    // Room과의 ManyToMany 관계를 RoomParticipant를 통해 간접적으로 설정
+    @OneToMany(mappedBy = "user")
+    private List<RoomParticipant> roomParticipants;
 }
