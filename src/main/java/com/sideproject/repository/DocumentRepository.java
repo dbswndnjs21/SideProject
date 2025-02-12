@@ -6,17 +6,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Repository
 public class DocumentRepository {
 
-    private final RedisTemplate<String, Object> redisTemplate; // Object로 변경
-    private HashOperations<String, String, Object> hashOperations; // Object로 변경
+    private final RedisTemplate<String, DocumentDto> redisTemplate;
+    private final HashOperations<String, String, DocumentDto> hashOperations;
 
     @Autowired
-    public DocumentRepository(RedisTemplate<String, Object> redisTemplate) {
+    public DocumentRepository(RedisTemplate<String, DocumentDto> redisTemplate) {
         this.redisTemplate = redisTemplate;
         this.hashOperations = redisTemplate.opsForHash();
     }
@@ -26,7 +23,7 @@ public class DocumentRepository {
     }
 
     public DocumentDto findById(String id) {
-        return (DocumentDto) hashOperations.get("DOCUMENT", id); // 캐스팅 필요
+        return hashOperations.get("DOCUMENT", id);
     }
 
     public void delete(String id) {
