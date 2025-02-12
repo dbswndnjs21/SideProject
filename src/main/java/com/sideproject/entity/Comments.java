@@ -19,7 +19,7 @@ public class Comments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "studyboard_id")
+    @Column(name = "study_board_id")
     private Long studyBoardId;
 
     @Column(name = "user_id")
