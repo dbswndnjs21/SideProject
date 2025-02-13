@@ -18,6 +18,7 @@ public class ReissueController {
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("리프레시 토큰 재발급 경로");
         return reissueService.reissue(request, response);
     }
 }

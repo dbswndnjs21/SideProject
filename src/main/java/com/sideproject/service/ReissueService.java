@@ -33,7 +33,8 @@ public class ReissueService {
         try {
             jwtUtil.isExpired(refresh);
         } catch (ExpiredJwtException e) {
-            return new ResponseEntity<>("refresh token expired", HttpStatus.BAD_REQUEST);
+            System.out.println("refresh 토큰 만료");
+            return new ResponseEntity<>("refresh token expired", HttpStatus.UNAUTHORIZED);
         }
 
         // 토큰이 refresh 인지 확인 (발급시 페이로드에 명시)

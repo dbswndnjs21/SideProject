@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document List</title>
+</head>
+<body>
+<h1>My Documents</h1>
+
+<!-- select 요소로 문서 목록 표시 -->
+<select id="document-select">
+    <option value="">Select a Document</option> <!-- 기본값 -->
+</select>
+
+<!-- 선택된 문서 ID를 넘길 버튼 -->
+<button id="view-document">View Document</button>
+
+<script>
+    const accessToken = localStorage.getItem("access");
+
+    fetch('/documents', {
+        headers: {
+            "access": accessToken
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            const select = document.getElementById('document-select');
+
+            data.forEach(doc => {
+                const option = document.createElement('option');
+                option.value = doc.roomId;  // roomId를 value로 설정
+                option.textContent = `(Room ID: ${doc.roomId})`;  // 문서 이름과 roomId 표시
+                select.appendChild(option);
+            });
+        });
+
+    // 버튼 클릭 시 선택된 roomId로 페이지 이동
+    document.getElementById('view-document').addEventListener('click', () => {
+        const selectedRoomId = document.getElementById('document-select').value;
+        if (selectedRoomId) {
+            window.location.href = `/websocket?documentId=${selectedRoomId}`;// 선택된 roomId를 URL로 전달
+        } else {
+            alert('Please select a document');
+        }
+    });
+</script>
+
+</body>
+</html>

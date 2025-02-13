@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>방 만들기</title>
+</head>
+<body>
+<h1>방 만들기</h1>
+
+<!-- 참여자 선택 -->
+<label for="participants">참여자 선택:</label>
+<select id="participants" multiple>
+    <!-- 서버에서 받아온 사용자 목록이 동적으로 추가됩니다. -->
+</select>
+
+<button id="createRoomBtn">방 만들기</button>
+
+<script>
+    // 로컬스토리지에서 access 토큰 가져오기
+    const accessToken = localStorage.getItem('access');
+    console.log(accessToken)
+    if (!accessToken) {
+        alert('로그인이 필요합니다.');
+        window.location.href = '/login'; // 로그인 페이지로 이동
+    }
+
+    // 사용자 목록 요청
+    fetch('/users') // 사용자 목록을 가져오는 API 엔드포인트
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const select = document.getElementById('participants');
+            data.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.id; // 사용자 ID
+                option.textContent = user.username; // 사용자 이름
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('사용자 목록을 불러오는 데 실패:', error));
+
+    // "방 만들기" 버튼 클릭 시
+    document.getElementById('createRoomBtn').addEventListener('click', () => {
+        const selectedUsers = Array.from(document.getElementById('participants').selectedOptions)
+            .map(option => option.value); // 선택된 사용자 ID 배열
+
+        if (selectedUsers.length === 0) {
+            alert('최소 한 명의 참여자를 선택해야 합니다.');
+            return;
+        }
+
+        // 방 만들기 요청 (참여자 목록 포함)
+        const newRoom = { participants: selectedUsers };
+        console.log(newRoom)
+
+        fetch('/rooms', {  // 방을 생성하는 API 엔드포인트
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "access": accessToken,
+            },
+            body: JSON.stringify(newRoom)
+        })
+            .then(response => response.json())
+            .then(room => {
+                if (room.id) {
+                    // 방이 생성되면 해당 방의 ID를 협업 텍스트 편집기 페이지로 전달
+                    window.location.href = `/websocket?documentId=${room.id}`;
+                } else {
+                    alert('방 생성에 실패했습니다.');
+                }
+            })
+            .catch(error => console.error('방 생성 중 오류 발생:', error));
+    });
+</script>
+</body>
+</html>
