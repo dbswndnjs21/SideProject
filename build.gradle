@@ -54,6 +54,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'com.google.guava:guava:31.0-jre'
 
+
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // aop 구현을 위한 implementation

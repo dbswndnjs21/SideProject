@@ -1,7 +1,7 @@
 package com.sideproject.repository;
 
 public interface IsLikedCustomRepository {
-    Long updateLiked(String username, Long studyBoardId);
+    Long updateLiked(Long userId, Long studyBoardId);
 
-    Long deleteLiked(String username, Long studyBoardId);
+    Long deleteLiked(Long userId, Long studyBoardId);
 }
