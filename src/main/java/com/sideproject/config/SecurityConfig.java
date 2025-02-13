@@ -56,14 +56,16 @@ public class SecurityConfig {
                                 .requestMatchers("/reissue").permitAll()
                                 .requestMatchers("favicon.ico").permitAll()
                                 .requestMatchers("/ws/**", "/app/**", "/topic/**").permitAll()
-                                .anyRequest().authenticated())
+                                .requestMatchers("/recent/**").permitAll()
+//                                .anyRequest().authenticated())
+//                                .anyRequest().authenticated())
 //                .formLogin(formLogin -> formLogin
 //                        .loginPage("/login") // 로그인 페이지
 ////                        .loginProcessingUrl("/login") // 로그인 처리 URL
 //                        .defaultSuccessUrl("/", true)
 //                        .failureUrl("/login?error=true")) // 성공 후 루트("/")로 리다이렉트
 
-//                                .anyRequest().permitAll())
+                                .anyRequest().permitAll())
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class)
