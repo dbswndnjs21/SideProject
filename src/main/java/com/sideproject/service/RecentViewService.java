@@ -19,10 +19,10 @@ public class RecentViewService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     // 사용자의 아이템 ID와 조회시간을 저장
-    public void addPostRecentView(String username, Long studyBoardId) {
+    public void addPostRecentView(String username, Long itemId) {
         String userKey = getUserViewKey(username);
         double score = getCurrentTimeInSeconds(); // 현재시간을 같이 저장해서 정렬할 수 있게 함
-        redisTemplate.opsForZSet().add(userKey, String.valueOf(studyBoardId), score); // oopsForZSet = Sroted Set: 중복이 제거된 List
+        redisTemplate.opsForZSet().add(userKey, String.valueOf(itemId), score); // oopsForZSet = Sroted Set: 중복이 제거된 List
     }
 
     // 최근 일주일 조회
@@ -32,11 +32,11 @@ public class RecentViewService {
         return convertSet(redisTemplate.opsForZSet().reverseRangeByScore(userKey, minScore, Double.MAX_VALUE, 0, count));
     }
 
-    public Set<Long> convertSet(Set<Object> studyBoardIds) {
-        if (studyBoardIds == null) return new LinkedHashSet<>();
+    public Set<Long> convertSet(Set<Object> itemIds) { // Object 타입을 long으로 변환하는 과정
+        if (itemIds == null) return new LinkedHashSet<>();
 
-        return studyBoardIds.stream()
-                .map(studyBoardId -> Long.parseLong((String) studyBoardId))
+        return itemIds.stream()
+                .map(itemId -> Long.parseLong((String) itemId))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
