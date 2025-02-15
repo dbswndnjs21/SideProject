@@ -31,7 +31,7 @@ public class RecentViewApiController {
 //        UserEntityDto userdto = userService.getUserByUsername(username);
 //        System.out.println(userdto.getId());
 
-        Long userId = 2L;
+        Long userId = 3L;
         System.out.println(userId);
 
         recentViewService.addPostRecentView(userId, studyBoardId);

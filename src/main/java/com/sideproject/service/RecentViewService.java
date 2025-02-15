@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,6 +28,7 @@ public class RecentViewService {
         double score = getCurrentTimeInSeconds(); // 현재시간을 같이 저장해서 정렬할 수 있게 함
         log.info("getUserViewKey: {}", userKey);
         redisTemplate.opsForZSet().add(userKey, String.valueOf(itemId), score); // oopsForZSet = Sroted Set: 중복이 제거된 List
+        redisTemplate.expire(userKey, 7, TimeUnit.DAYS); // 7일간만 저장하도록 TTL 설정
     }
 
     // 최근 일주일 조회
